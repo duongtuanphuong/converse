@@ -150,18 +150,7 @@
     <div th:replace="fragments/admin-layout::script"></div>
     <script th:src="@{/js/product.js}"></script>
     <script>
-       function chooseImage(btn){
-    if($(btn).hasClass("choosen")){
-        $(btn).toggleClass("choosen");
-        $('.btn-choose-img').prop("disabled",true);
-        $('.btn-delete-img').prop("disabled",true);
-    }else{
-        $('.list-image .choosen').toggleClass('choosen');
-        $(btn).toggleClass('choosen');
-        $('.btn-choose-img').prop("disabled",false);
-        $('.btn-delete-img').prop("disabled",false);
-    }
-}
+       
     </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 
 
-      $('.register-button').click(function(){
+      $('.register-button').on("click",function(){
         let name = $('#register-name').val();
         let email = $('#register-email').val();
         let password = $('#register-password').val();
@@ -25,7 +25,7 @@
           
       })
 
-      $('.login-button').click(function (){
+      $('.login-button').on("click",function (){
         let name = $('#login-name').val();
         let password = $('#login-password').val();
         req = {
@@ -67,14 +67,14 @@
 
 
       function productDetail(btn){
-        $('#product-detail .product-image img').remove();
+        $('#product-detail .product-gallery .sub-image').children().remove();
         $('.input-number').val(1)
         let id = $(btn).data('id');
         let listUrl = [];
         let html = ``;
         $('.product-image[data-id = '+id+'] div img').each(function(){
           let url = $(this).attr('src');
-          html += `<img src="${url}" alt="product img">`
+          html += `<div onclick="getImage(this)"><img src="${url}" alt="product img"></div>`
         })
         $.ajax({
           url: '/api/product/' + id,
@@ -85,13 +85,18 @@
             $('#product-detail .product-name').text(data.name);
             $('#product-detail .product-price').text(data.price + '₫');
             $('#product-detail .product-category a').text(data.category.name).attr('href',"/client/category/" + data.category.id);
-            $('#product-detail .product-image').append(`${html}`)
+            $('#product-detail .product-gallery .sub-image').append(`${html}`)
+            $('.sub-image div:first').addClass("choose");
+            let u = $('.choose img').attr("src");
+            $('.product-gallery .main-image img').attr("src",u);
           }
         })
+
+        
         $('#product-detail').modal('show');
       }
       
-      $('.input-number-product .minus-button').click(function(){
+      $('.input-number-product .minus-button').on("click",function(){
         let current = parseInt($('.input-number').val());
         current --;
         if(current <1){
@@ -99,7 +104,7 @@
         }
         $('.input-number').val(current);
       })
-      $('.input-number-product .plus-button').click(function(){
+      $('.input-number-product .plus-button').on("click",function(){
         let current = parseInt($('.input-number').val());
         current ++;
         $('.input-number').val(current);

@@ -25,11 +25,22 @@ function showImage(btn){
 
 // Open - Close Choose Image
 
-
+function chooseImage(btn){
+    if($(btn).hasClass("choose")){
+        $(btn).toggleClass("choose");
+        $('.btn-choose-img').prop("disabled",true);
+        $('.btn-delete-img').prop("disabled",true);
+    }else{
+        $('.list-image .choose').toggleClass('choose');
+        $(btn).toggleClass('choose');
+        $('.btn-choose-img').prop("disabled",false);
+        $('.btn-delete-img').prop("disabled",false);
+    }
+}
 
 function closeChooseImgModal(){
     $('#choose-image-modal').modal('hide');
-    $('.list-image .image-block').removeClass("choosen");
+    $('.list-image .image-block').removeClass("choose");
     $('.btn-choose-img').prop("disabled",true);
     $('.btn-delete-img').prop("disabled",true);
 }
@@ -152,8 +163,8 @@ var listProduct = [];
 
 
         $('.btn-choose-img').on("click",function(){
-            let url = $('.list-image .choosen img').attr('src');
-            let data = $('.list-image .choosen img').data('id');
+            let url = $('.list-image .choose img').attr('src');
+            let data = $('.list-image .choose img').data('id');
             closeChooseImgModal();
             $('.list-product-image').append(`
                 <div class = "input-product-image">

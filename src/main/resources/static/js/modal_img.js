@@ -19,7 +19,7 @@ function closeChooseImgModal() {
 
 
 
-$(".upload-thumbnail").change(function () {
+$(".upload-thumbnail").on("change",function () {
   var fd = new FormData();
   var file = $(this)[0].files[0];
 
@@ -49,7 +49,7 @@ $(".upload-thumbnail").change(function () {
   });
 });
 
-$("#btn-upload-product-img").click(function () {
+$("#btn-upload-product-img").on("click",function () {
   $("#choose-img-modal").modal("show");
   $(".btn-choose-img").on("click", function (event) {
     let url = $(".choosen .grid-item-img").attr("src");
@@ -72,7 +72,7 @@ $("#btn-upload-product-img").click(function () {
 
 
 
-$('#btn-update-product-img').click(function(){
+$('#btn-update-product-img').on("click",function(){
   $("#choose-update-img-modal").modal("show");
   $("#choose-update-img-modal .btn-choose-img").on("click",function(){
     let url = $(".choosen .grid-item-img").attr("src");

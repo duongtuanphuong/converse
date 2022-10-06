@@ -267,3 +267,32 @@ input[type=number] {
     border: 1px solid transparent;
     min-height: 2.5em;
 }
+
+.product-gallery{
+    display: flex;
+    flex-direction: column;
+}
+.product-gallery .sub-image{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 15px;
+    padding-top: 20px;
+}
+
+.product-gallery .main-image{
+    flex-grow: 1;
+}
+.sub-image img,.main-image img{
+    width: 100%;
+    max-height: 350px;
+}
+.sub-image img{
+    opacity: .5;
+}
+.sub-image .choose{
+    transform: translateY(-10px);
+    border: 1px solid rgba(0,0,0,0.3);
+}
+.sub-image .choose img{
+    opacity: 1;
+}

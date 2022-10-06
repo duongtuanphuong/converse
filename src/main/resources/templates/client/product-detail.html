@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link th:replace = "fragments/layout::link">
+    <link rel="stylesheet" th:href="@{/css/product-detail.css}">
+</head>
+<body>
+    <header th:replace="fragments/layout::header"></header>
+
+
+    <div class="product-detail" id="product-detail">
+        <div class="container">
+            <div class="product-main">
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <div>
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                    <div class="sub-image">
+                        <div th:each = "image : ${product.images}" onclick="getImage(this)">
+                            <img th:src="*{'data:image/jpeg;base64,' + {image.data}}" alt="" >
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <nav class="product-title">
+                        <a th:href="@{/}">Trang chủ</a>
+                        <span class="divider">/</span>
+                        <a href="" class="product-category" th:text = "${product.category.name}"></a>
+                        <span class="divider">/</span>
+                        <span th:text = ${product.name}></span>
+                    </nav>
+                    <div class="product-detail-content">
+                        <div class="product-id" hidden th:text = "${product.id}"></div>
+                        <h1 class="product-name" th:text = "${product.name}"></h1>
+                        <div class="divider-small"></div>
+                        <div class="product-price" th:text = "${product.price} + ₫"></div>
+                        <div class="km-hot">
+                            <div class="box-km">
+                                <h2 class="title-km">
+                                    <i class="fa-solid fa-gift"></i>
+                                    <span>Khuyến mãi</span>
+                                </h2>
+                                <div class="box-promotion">
+                                    <ul>
+                                        <li><meta>Tặng thêm <strong><em>Phiếu mua hàng 200.000đ</em></strong> (áp dụng mua pin dự phòng Umetravel, Innostyle)</li>
+                                        <li><em><strong>Trả góp</strong></em> 0% lãi suất</li>
+                                        <li>Chiết khấu member ship</li>
+                                        <li><em><strong>Giảm giá thêm 100.000đ</strong></em> khi mua kèm Airpods Pro (VN/A)</li>
+                                        <li><em><strong>Giảm thêm 200.000đ</strong></em> khi mua kèm Macbook Air M1 8GB/256GB (VN/A)</li></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-number-product">
+                            <span>Số lượng : &nbsp;
+                                <input type="button" class="minus-button" value="-">
+                                <input type="number" class="input-number" value="1">
+                                <input type="button" class="plus-button" value="+">
+                            </span>
+                        </div>
+                        <div class="add-to-cart">
+                            <button>Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:replace="fragments/layout::login-modal"></div>
+    <div th:replace = "fragments/layout::product-modal"></div>
+    
+    
+    <footer th:replace="fragments/layout::footer"></footer>
+
+    <div  th:replace = "fragments/layout::script"></div>
+    <script>
+        
+        $(document).ready(function(){
+            let url = $('.sub-image img:first').attr("src");
+            $('.main-image img').attr("src",url);
+            $('.sub-image div:first').addClass("choose");
+        })
+
+        function getImage(btn){
+            $('.sub-image .choose').toggleClass("choose");
+            $(btn).toggleClass("choose");
+            let url = $('.choose img').attr("src");
+            $('.main-image img').attr("src",url);
+        }
+    </script>
+</body>
+</html>

@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.converse.entity.Product;
 import com.example.converse.entity.ShoppingCart;
@@ -35,6 +36,13 @@ public class HomeController {
         return "client/index";
     }
     
+
+    @GetMapping("/product/{id}")
+    public String getProduct(@PathVariable long id,Model model){
+        Product product = productService.findProductById(id);
+        model.addAttribute("product", product);
+        return "client/product-detail";
+    }
 
 
     @GetMapping("/test")

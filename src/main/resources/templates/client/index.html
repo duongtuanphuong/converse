@@ -116,12 +116,12 @@
         <div class="list-product">
           <div class="product-block" th:each = "product : ${listProduct}">
             <div class="product-image" th:each = "image,i : ${product.images}" th:data-id = "${product.id}">
-              <div th:if = "${i.first}"><a href="#"><img th:src="*{'data:image/jpeg;base64,' + {image.data}}" alt="" ></a></div>
-              <div th:if = "${i.first} == false"><a href="#"><img th:src="*{'data:image/jpeg;base64,' + {image.data}}" alt=""  hidden></a></div>
+              <div th:if = "${i.first}"><a th:href="@{/product/{id}(id = ${product.id})}"><img th:src="*{'data:image/jpeg;base64,' + {image.data}}" alt="" ></a></div>
+              <div th:if = "${i.first} == false"><a href=""><img th:src="*{'data:image/jpeg;base64,' + {image.data}}" alt=""  hidden></a></div>
             </div>
             <div class="product-content">
               <div class="product-id"  th:data-id = "${product.id}" hidden name = "product-id"></div>
-              <div class="product-name"><a href="#" th:text = "${product.name}"></a></div>
+              <div class="product-name"><a th:href="@{/product/{id}(id = ${product.id})}" th:text = "${product.name}"></a></div>
               <div class="product-price" th:text = "${product.price} + ₫"><span></span></div>
               <div class="add-to-cart-button"><button onclick="productDetail(this)" th:data-id = "${product.id}">Thêm vào giỏ</button></div>
             </div>
@@ -195,6 +195,14 @@
               }
           }
       })
+      function getImage(btn){
+            // let url = $(btn).attr("src");
+            // $('.main-image img').attr("src",url);
+            $('.sub-image .choose').toggleClass("choose");
+            $(btn).toggleClass("choose");
+            let url = $('.choose img').attr("src");
+            $('.main-image img').attr("src",url);
+        }
     </script>
     <script>
 
