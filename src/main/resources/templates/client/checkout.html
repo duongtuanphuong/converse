@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link th:replace = "fragments/layout::link">
+    <link rel="stylesheet" th:href="@{/css/checkout.css}">
+
+</head>
+<body>
+    <header th:replace="fragments/layout::header"></header>
+
+
+    <div class="checkout-content">
+        <div class="container">
+            <div class="order-info-input">
+                <div class="input-form">
+                    <h3>THÔNG TIN THANH TOÁN</h3>
+                    <div class="user-input-info">
+                        <div class="form-group">
+                        <label for="">Tên *</label>
+                        <input type="text" name="" id="" class="form-control" placeholder=""  >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Quốc gia *</label>
+                            <input type="text" name="" id="" class="form-control" placeholder=""  >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Địa chỉ *</label>
+                            <input type="text" name="" id="" class="form-control" placeholder=""  >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email *</label>
+                            <input type="text" name="" id="" class="form-control" placeholder=""  >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Số điện thoại *</label>
+                            <input type="text" name="" id="" class="form-control" placeholder=""  >
+                        </div> 
+                        <div class="form-group">
+                            <label for="">Ghi chú đơn hàng(Tùy chọn)</label>
+                            <textarea type="text" name="" id="" class="form-control" rows="3" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn."  ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-detail">
+                <div class="checkout-sidebar">
+                    <div class="checkout-content">
+                        <h3>ĐƠN HÀNG CỦA BẠN</h3>
+                    <table class="table table-responsive w-100 d-block d-md-table">
+                        <thead>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>Tổng</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="order-product-name">Product1</td>
+                                    <td class="order-product-totalPrice">700,000&nbsp;<span> ₫</span></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Tổng phụ</th>
+                                    <td>700,000&nbsp;<span>₫</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Ưu đãi</th>
+                                    <td>0%</td>
+                                </tr>
+                                <tr>
+                                    <th>Tổng</th>
+                                    <td>700,000&nbsp; <span>₫</span></td>
+                                </tr>
+                            </tfoot>
+                    </table>
+                    <div class="checkout-button">
+                        <button>ĐẶT HÀNG</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/layout::login-modal"></div>
+    <div th:replace = "fragments/layout::product-modal"></div>
+
+
+
+    
+    <footer th:replace="fragments/layout::footer"></footer>
+
+    <div th:replace = "fragments/layout::script"></div>
+
+    <script>
+        $('.checkout-button button').click(function(){
+            $.ajax({
+                url: '/client/api/save-order',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                success: function(data){
+                    toastr.success("Hoàn thành thanh toán");
+                }
+            })
+        })
+    </script>
+</body>
+</html>
