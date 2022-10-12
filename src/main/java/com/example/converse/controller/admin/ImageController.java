@@ -50,8 +50,8 @@ public class ImageController {
                 img.setName(originalFilename);
                 img.setData(Base64.getEncoder().encodeToString(file.getBytes()));
                 img.setType(extension); 
-                String uid = UUID.randomUUID().toString();
-                img.setLink(UPLOAD_DIR + uid + file.getOriginalFilename());
+                // String uid = UUID.randomUUID().toString();
+                img.setLink(UPLOAD_DIR  + file.getOriginalFilename());
                 // Create file
                 File serverFile = new File(img.getLink());
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));

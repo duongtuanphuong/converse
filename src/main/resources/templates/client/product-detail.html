@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title th:text= "${product.name} + ' - ' +Converse"></title>
     <link th:replace = "fragments/layout::link">
     <link rel="stylesheet" th:href="@{/css/product-detail.css}">
 </head>
@@ -12,7 +12,7 @@
     <header th:replace="fragments/layout::header"></header>
 
 
-    <div class="product-detail" id="product-detail">
+    <div id="product-detail">
         <div class="container">
             <div class="product-main">
                 <div class="product-gallery">
@@ -69,12 +69,88 @@
                     </div>
                 </div>
             </div>
+            <div class="product-tabs">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="product-info-tab" data-toggle="tab" href="#product-info" role="tab" >Thông tin sản phẩ</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Đánh giá</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="product-info" role="tabpanel" >
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>SKU</th>
+                                    <td>1212121</td>
+                                </tr>
+                                <tr>
+                                    <th>Chất liệu</th>
+                                    <td>Cavans</td>
+                                </tr>
+                                <tr>
+                                    <th>Danh mục</th>
+                                    <td>Danh mục</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="review" role="tabpanel" >
+                        <div class="comments">
+                            <h3>Đánh giá</h3>
+                            <div class="list-comment">
+                                <p> Chưa có đánh giá nào</p>
+                            </div>
+                        </div>
+                        <div class="form-comment">
+                            <h3>Những nhận xét của bạn luôn là những sự giúp đỡ với chúng tôi</h3>
+                            <div class="form-group">
+                              <label for="">Đánh giá của bạn*</label>
+                              <textarea type="text" name="" id="" class="form-control" rows="4"></textarea>
+                            </div>
+                            <div class="form-group" id = "info-input">
+                              <div class="input-name">
+                                <label for="">Tên*</label>
+                                <input type="text" name="" id="" class="form-control" >
+                              </div>
+                              <div class="input-email">
+                                <label for="">Email*</label>
+                                <input type="text" name="" id="" class="form-control" >
+                              </div>
+
+                            </div>
+                            <button type="submit" class="btn btn-danger">Gửi đi</button>
+
+                        </div>
+                    </div>
+                  </div>
+            </div>
+
+
+            <div class="same-product">
+                <h3>Sản phẩm tương tự</h3>
+                <div class="product-slider">
+                    <div class="owl-carousel">
+                        <div class="product-block">
+                            <div class="product-image">
+                              <a href="#"><img th:src="@{/image/product1.jpg}" alt=""></a>
+                            </div>
+                            <div class="product-content">
+                              <div class="product-name"><a href="#">Chuck Taylor Classic</a></div>
+                              <div class="product-price">1,250,000 <span>₫</span></div>
+                              <div class="add-to-cart-button"><button>Xem chi tiết</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
 
     <div th:replace="fragments/layout::login-modal"></div>
-    <div th:replace = "fragments/layout::product-modal"></div>
     
     
     <footer th:replace="fragments/layout::footer"></footer>
@@ -94,6 +170,16 @@
             let url = $('.choose img').attr("src");
             $('.main-image img').attr("src",url);
         }
+
+        $('.owl-carousel').owlCarousel({
+          loop:true,
+          margin:10,
+          responsive:{
+              0:{
+                  items:5
+              }
+          }
+      })
     </script>
 </body>
 </html>

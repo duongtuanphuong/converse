@@ -56,18 +56,31 @@ $('#btn-upload-product-img').on("click",function(){
 
 var listProduct = [];
         
-        function getListProduct(){
+        let pageNo =0;
+        
+        function getPage(btn){
+            let number = $(btn).text();
+            pageNo = number - 1;
+            getListProduct(pageNo);
+        }
+
+
+        function getListProduct(pageNo){
             $.ajax({
             url: '/api/product/pageProduct',
+            data:{
+                pageNo: pageNo,
+                pageSize : 8
+            },
             type: 'GET',
             success: function(data){
-                listProduct = data;
-                showProduct(data);
+                listProduct = data.content;
+                showProduct(data.content);
             }
             })
         }
         $(document).ready(function(){
-            getListProduct();
+            getListProduct(pageNo);
         })
         function showProduct(data){
             $('.list-product').children().remove();
@@ -153,7 +166,7 @@ var listProduct = [];
                 success: function(data){
                     let url = data.data;
                     $('.list-image').append(`
-                        <div class = "image-block">
+                        <div class = "image-block" onclick="chooseImage(this)">
                             <img src="data:image/jpeg;base64,${url}" alt="" data-id = "${data.id}">
                         </div>
                     `)

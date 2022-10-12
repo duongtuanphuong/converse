@@ -49,7 +49,7 @@ public class ShoppingCartController {
         List<CartItem> cartItems = shoppingCartService.getListCartItem(cart.getId());
         
         model.addAttribute("cartItems", cartItems);
-
+        model.addAttribute("cart",cart);
         return "client/cart";
     }
 

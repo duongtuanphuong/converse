@@ -167,6 +167,7 @@
       </div>
     </div>
 
+
     <div th:replace="fragments/layout::login-modal"></div>
     <div th:replace = "fragments/layout::product-modal"></div>
 
@@ -195,14 +196,7 @@
               }
           }
       })
-      function getImage(btn){
-            // let url = $(btn).attr("src");
-            // $('.main-image img').attr("src",url);
-            $('.sub-image .choose').toggleClass("choose");
-            $(btn).toggleClass("choose");
-            let url = $('.choose img').attr("src");
-            $('.main-image img').attr("src",url);
-        }
+      
     </script>
     <script>
 

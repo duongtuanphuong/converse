@@ -41,6 +41,7 @@
           success: function(data){
             $('.modal').modal('hide');
             toastr.success('Đăng nhập thành công');
+            signedValidate(true,name);
           }
         })
       })
@@ -70,7 +71,6 @@
         $('#product-detail .product-gallery .sub-image').children().remove();
         $('.input-number').val(1)
         let id = $(btn).data('id');
-        let listUrl = [];
         let html = ``;
         $('.product-image[data-id = '+id+'] div img').each(function(){
           let url = $(this).attr('src');
@@ -109,3 +109,26 @@
         current ++;
         $('.input-number').val(current);
       })
+
+
+      function getImage(btn){
+        $('.sub-image .choose').toggleClass("choose");
+        $(btn).toggleClass("choose");
+        let url = $('.choose img').attr("src");
+        $('.main-image img').attr("src",url);
+    }
+
+    function signedValidate(status = false,name =''){
+      if(status == true){
+        isLogined = true;
+        let signedLink = `<a id="account-setting" class="nav-link account-setting" href="/tai-khoan">Xin chào ${name}</a>`;
+        $('.account-setting').replaceWith(signedLink);
+      }else{
+        isLogined = false;
+        let notSignedLink = `<a class="nav-link account-setting" href="" data-toggle="modal" data-target="#signInSignUp">Tài khoản</a>`;
+        $('.account-setting').replaceWith(notSignedLink);
+      }
+
+    }
+
+    

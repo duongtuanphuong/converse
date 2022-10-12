@@ -43,7 +43,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cart.setTotalItems(totalItemInCart(cart));
         cart.setTotalPrices(totalPriceInCart(cart));    
 
-        return shoppingCartRepository.save(cart);
+        return shoppingCartRepository.saveAndFlush(cart);
     }
 
     @Override

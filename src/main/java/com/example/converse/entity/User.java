@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,7 +50,9 @@ public class User {
 
     private String note;
 
+    
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonBackReference
     @JoinTable(name ="user_role",
                 joinColumns =@JoinColumn(name = "user_id"),
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -55,6 +60,7 @@ public class User {
 
 
     @OneToOne(mappedBy = "user")
+    @JsonBackReference
     private ShoppingCart shoppingCart;
 
 }

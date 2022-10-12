@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,8 +33,9 @@ public class CartItem {
     
     private long totalPrice;
 
-    @ManyToOne(fetch =FetchType.EAGER,cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cart_id",referencedColumnName = "id")
+    @JsonBackReference
     private ShoppingCart cart;
 
     @OneToOne(fetch = FetchType.EAGER)

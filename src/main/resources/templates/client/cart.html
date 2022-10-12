@@ -65,7 +65,7 @@
                             <tbody>
                                 <tr>
                                     <td>Tổng phụ</td>
-                                    <td>1000</td>
+                                    <td th:text = "${cart.totalPrices}"></td>
                                 </tr>
                                 <tr>
                                     <td>Ưu đãi</td>
@@ -73,12 +73,12 @@
                                 </tr>
                                 <tr>
                                     <td>Tổng</td>
-                                    <td>1000</td>
+                                    <td th:text = "${cart.totalPrices}"></td>
                                 </tr>
                             </tbody>
                     </table>
                     <div class="checkout-button">
-                        <a href="">Tiến hành thanh toán</a>
+                        <a th:href="@{/checkout}">Tiến hành thanh toán</a>
                     </div>
                     <div class="checkout_coupon">
                         <div class="coupon">

@@ -4,6 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.converse.entity.CartItem;
@@ -11,6 +15,7 @@ import com.example.converse.entity.Order;
 import com.example.converse.entity.OrderDetail;
 import com.example.converse.entity.ShoppingCart;
 import com.example.converse.entity.User;
+import com.example.converse.payload.request.CreateOrderReq;
 import com.example.converse.repository.CartItemRepository;
 import com.example.converse.repository.OrderDetailRepository;
 import com.example.converse.repository.OrderRepository;
@@ -33,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Override
-    public void saveOrder(User user) {
+    public void saveOrder(User user,CreateOrderReq req) {
         // TODO Auto-generated method stub
         Order order = new Order();
         order.setOrderStatus("PENDING");
@@ -51,7 +56,23 @@ public class OrderServiceImpl implements OrderService {
             orderDetailRepository.save(orderDetail);
             cartItemRepository.delete(item);
         }
+        order.setTotalPrices(cart.getTotalPrices());
+        order.setTotalItems(cart.getTotalItems());
+        order.setName(req.getName());
+        order.setEmail(req.getEmail());
+        order.setCountry(req.getCountry());
+        order.setAddress(req.getAddress());
+        order.setPhone(req.getPhone());
+        order.setNote(req.getNote());
         orderRepository.save(order);
+    }
+
+    @Override
+    public Page<Order> getListOrder(Integer pageNo, Integer pageSize, String sortBy) {
+        // TODO Auto-generated method stub
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+        Page<Order> listOrder = orderRepository.findAll(pageable);
+        return listOrder;
     }
     
 }

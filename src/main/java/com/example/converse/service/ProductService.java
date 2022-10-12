@@ -2,6 +2,7 @@ package com.example.converse.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.converse.entity.Image;
@@ -12,7 +13,11 @@ public interface ProductService {
     
     List<Product> getListProduct();
 
-    List<Product> getPageProduct(Integer pageNo,Integer pageSize,String sortBy);
+    Page<Product> getPageProduct(Integer pageNo,Integer pageSize,String sortBy);
+
+    Page<Product> getListProductByCategoryId(long id,Integer pageNo,Integer pageSize,String sortBy);
+
+    List<Product> getNewListProductByCategoryId(long id);
 
     Product findProductById(long id);
 

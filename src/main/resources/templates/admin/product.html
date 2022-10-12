@@ -40,6 +40,12 @@
                         <tbody class="list-product">
                         </tbody>
                     </table>
+
+                    <ul class="pagination">
+                        <li class="page-item" th:each = "i : ${#numbers.sequence(1,totalPages)}">
+                            <a class="page-link"  onclick="getPage(this)">[[${i}]]</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -144,6 +150,8 @@
           </div>
         </div>
       </div>
+
+     
 
       
     

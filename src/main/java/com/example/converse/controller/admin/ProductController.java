@@ -7,6 +7,10 @@ import javax.validation.Valid;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,10 +45,12 @@ public class ProductController {
     private ImageService imageService;
 
     @GetMapping("/admin/product")
-    public String getListProduct(Model model){
-        List<Product> listProduct = productService.getListProduct();
+    public String getListProduct(Model model,@RequestParam(defaultValue = "0") Integer pageNo,@RequestParam(defaultValue = "8") Integer pageSize,@RequestParam(defaultValue = "id") String sortBy){
+        Page<Product> listProduct = productService.getPageProduct(pageNo, pageSize, sortBy);
         List<Category> listCategory = categoryService.getListCategory();
         List<Image> listImage = imageService.getAllImage();
+        int totalPages = listProduct.getTotalPages();
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("listProduct", listProduct);
         model.addAttribute("listCategory", listCategory);
         model.addAttribute("listImage", listImage);
@@ -54,7 +60,13 @@ public class ProductController {
 
     @GetMapping("/api/product/pageProduct")
     public ResponseEntity<?> getPageProduct(@RequestParam(defaultValue = "0")Integer pageNo,@RequestParam(defaultValue= "8") Integer pageSize,@RequestParam(defaultValue =  "id") String sortBy){
-        List<Product> productList = productService.getPageProduct(pageNo, pageSize, sortBy);
+        Page<Product> productList = productService.getPageProduct(pageNo, pageSize, sortBy);
+        return ResponseEntity.ok(productList);
+    }
+
+    @GetMapping("/api/product/pageByCategoryId/{id}")
+    public ResponseEntity<?> getListProductByCategory(@PathVariable long id,@RequestParam(defaultValue = "0") Integer pageNo,@RequestParam(defaultValue = "12")Integer pageSize,@RequestParam(defaultValue = "id")String sortBt ){
+        Page<Product> productList = productService.getListProductByCategoryId(id, pageNo, pageSize, sortBt);
         return ResponseEntity.ok(productList);
     }
 

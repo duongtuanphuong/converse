@@ -55,7 +55,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Ghi chú</label>
-                            <textarea type="text" name="" id="user-note" class="form-control" rows="4" th:value ="${user.note}"></textarea>
+                            <textarea type="text" name="" id="user-note" class="form-control" rows="4" th:text ="${user.note}"></textarea>
                         </div>
                         <button type="submit" class="btn btn-update-user">Cập nhật thông tin</button>
                     </div>

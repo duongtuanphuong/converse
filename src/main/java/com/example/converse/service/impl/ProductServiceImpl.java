@@ -40,16 +40,30 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<Product> getPageProduct(Integer pageNo, Integer pageSize, String sortBy) {
+    public Page<Product> getPageProduct(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
         Page<Product> listProduct = productRepository.findAll(pageable);
-        if(listProduct.hasContent()){
-            return listProduct.getContent();
-        }else{
-            return new ArrayList<Product>();
-        }
+        // if(listProduct.hasContent()){
+        //     return listProduct.getContent();
+        // }else{
+        //     return new ArrayList<Product>();
+        // }
+        return listProduct;
     }
 
+    @Override
+    public Page<Product> getListProductByCategoryId(long id,Integer pageNo,Integer pageSize,String sortBy) {
+        // TODO Auto-generated method stub
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+        Page<Product> listProduct = productRepository.getProductByCategoryId(id,pageable);
+        return listProduct;
+    }
+
+    @Override
+    public List<Product> getNewListProductByCategoryId(long id) {
+        // TODO Auto-generated method stub
+        return productRepository.getNewProductByCategoryId(id);
+    }
 
     @Override
     public Product findProductById(long id) {
@@ -57,6 +71,8 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id).get();
         return product;
     }
+
+
 
     @Override
     public Product createProduct(CreateProductReq req) {
@@ -112,8 +128,8 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(product);
     }
 
-   
-    
 
     
+
+
 }

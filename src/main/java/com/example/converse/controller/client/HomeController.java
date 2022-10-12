@@ -4,23 +4,26 @@ import java.io.Console;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.converse.entity.Category;
 import com.example.converse.entity.Product;
-import com.example.converse.entity.ShoppingCart;
 import com.example.converse.entity.User;
 import com.example.converse.sercurity.CustomUserDetails;
+import com.example.converse.service.CategoryService;
 import com.example.converse.service.ProductService;
-import com.example.converse.service.UserService;
-import com.example.converse.service.impl.UserServiceImpl;
+
 
 @Controller
 public class HomeController {
@@ -28,10 +31,18 @@ public class HomeController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/")
-    public String getHome(Model model){
-        List<Product> listProduct = productService.getListProduct();
+    @Autowired
+    private CategoryService categoryService;
 
+    @GetMapping("/")
+    public String getHome(Model model,Principal principal,HttpSession session){
+        if(principal != null){
+            
+            session.setAttribute("username", principal.getName());
+        }
+        List<Product> listProduct = productService.getListProduct();
+        List<Category> listCategory = categoryService.getListCategory();
+        model.addAttribute("listCategory", listCategory);
         model.addAttribute("listProduct", listProduct);
         return "client/index";
     }
@@ -48,6 +59,21 @@ public class HomeController {
     @GetMapping("/test")
     public String getTest(Model model){
         return "index";
-    }   
+    }
+
+    @GetMapping("/product/category/{id}")
+    public String getListProductByCategoryId(@PathVariable long id,Model model,
+                                            @RequestParam(defaultValue = "0")Integer pageNo,
+                                            @RequestParam(defaultValue = "12")Integer pageSize,
+                                            @RequestParam(defaultValue = "id")String sortBy){
+        List<Product> newProducts = productService.getNewListProductByCategoryId(id);
+        Page<Product> listProduct = productService.getListProductByCategoryId(id, pageNo, pageSize, sortBy);
+        int totalPages = listProduct.getTotalPages();
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("newProductList", newProducts);
+        return "client/list-product";
+    }
+
+
 
 }
