@@ -38,6 +38,6 @@ public class ShoppingCart {
     @JoinColumn(name ="user_id")
     private User user;
 
-    @OneToMany(mappedBy = "cart")
-    private Set<CartItem> cartItem = new HashSet<CartItem>();
+    // @OneToMany(mappedBy = "cart")
+    // private Set<CartItem> cartItem = new HashSet<CartItem>();
 }

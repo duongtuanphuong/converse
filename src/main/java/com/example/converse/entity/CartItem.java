@@ -33,7 +33,7 @@ public class CartItem {
     
     private long totalPrice;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinColumn(name = "cart_id",referencedColumnName = "id")
     @JsonBackReference
     private ShoppingCart cart;

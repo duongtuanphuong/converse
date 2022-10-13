@@ -30,6 +30,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCart addShoppingCartFirstTime(AddProductToCartReq req, User user) {
         ShoppingCart cart = new ShoppingCart();
+        shoppingCartRepository.save(cart);
         Product product = productRepository.findById(req.getProductId()).get();
         CartItem cartItem = new CartItem();
         cartItem.setPrice(product.getPrice());
@@ -99,8 +100,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 cartItemRepository.save(item);
             }
         }
-
-        return cart;
+        cart.setTotalItems(totalItemInCart(cart));
+        cart.setTotalPrices(totalPriceInCart(cart));
+        return shoppingCartRepository.save(cart);
     }
 
     @Override
@@ -113,7 +115,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 cartItemRepository.delete(item);
             }
         }
-        return cart;
+        cart.setTotalItems(totalItemInCart(cart));
+        cart.setTotalPrices(totalPriceInCart(cart));
+        return shoppingCartRepository.save(cart);
     }
 
     @Override
