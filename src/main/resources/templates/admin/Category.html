@@ -36,7 +36,8 @@
                         <tbody class="list-category">
                             <tr th:each ="category,i : ${categories}">
                                 <td class="category-name" th:text = "${category.name}" th:data-id = "${category.id}">Category1</td>
-                                <td><button class="enable-button btn btn-info">Enabled</button></td>
+                                <td th:if = "${category.is_deleted == false}"><button class="enable-button btn btn-info"  onclick="enableCategory(this)" th:data-id = "${category.id}">Enabled</button></td>
+                                <td th:if = "${category.is_deleted == true}"><button class="enable-button btn btn-danger"  onclick="enableCategory(this)" th:data-id = "${category.id}">Deleted</button></td>
                                 <td>
                                     <button class="update-button btn btn-primary" onclick="updateCategory(this)" th:data-id = "${category.id}">Update</button>
                                     <button class="delete-button btn btn-danger" onclick="deleteCategory(this)" th:data-id = "${category.id}">Delete</button>
@@ -209,13 +210,36 @@
             $('.modal').modal('hide');
             $('#input-category-id').val('');
             $('#input-category-name').val('');
-            toastr.warning("Cập nhật thành công");
+            toastr.success("Cập nhật thành công");
 
           },error: function(data){
             toastr.error("Cập nhật thất bại");
           }
         })
       })
+
+
+      function enableCategory(btn){
+        let id = $(btn).data('id');
+        $.ajax({
+          url: '/api/category/enable/' + id,
+          type: 'POST',
+          contentType: "application/json; charset=utf-8",
+          success: function(data){
+            toastr.success("Cập nhật thành công");
+            if($(btn).hasClass('btn-info')){
+              $(btn).removeClass('btn-info');
+              $(btn).addClass('btn-danger');
+              $(btn).text("Deleted")
+            }
+            if($(btn).hasClass('btn-danger')){
+              $(btn).removeClass('btn-danger');
+              $(btn).addClass('btn-info');
+              $(btn).text("Enabled")
+            }
+          }
+        })
+      }
     </script>
 </body>
 </html>

@@ -11,4 +11,6 @@ public interface OrderService {
     Page<Order> getListOrder(Integer pageNo,Integer pageSize,String sortBy);
 
     void saveOrder(User user,CreateOrderReq  req);
+
+    Order updateShippedDate(long id);
 }

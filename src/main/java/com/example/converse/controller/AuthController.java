@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.catalina.connector.Response;
@@ -66,7 +67,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginReq req, HttpServletResponse response) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginReq req, HttpServletResponse response,HttpSession session) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(req.getUsername(),
                         req.getPassword()));
@@ -77,8 +78,11 @@ public class AuthController {
         cookie.setMaxAge(MAX_AGE_COOKIE);
         cookie.setPath("/");
         response.addCookie(cookie);
+        
+        session.setAttribute("authentication", authentication);
+        session.setMaxInactiveInterval(MAX_AGE_COOKIE);
 
-        return ResponseEntity.ok("Đăng nhập thành công");
+        return ResponseEntity.ok(authentication);
     }
 
 }

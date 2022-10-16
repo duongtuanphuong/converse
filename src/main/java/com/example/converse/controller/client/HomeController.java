@@ -35,13 +35,16 @@ public class HomeController {
     private CategoryService categoryService;
 
     @GetMapping("/")
-    public String getHome(Model model,Principal principal,HttpSession session){
-        if(principal != null){
-            
-            session.setAttribute("username", principal.getName());
-        }
-        List<Product> listProduct = productService.getListProduct();
+    public String getHome(Model model){
+
+        List<Product> listProduct = productService.getListNewProduct();
         List<Category> listCategory = categoryService.getListCategory();
+        List<Product> listProductByCategory = productService.getListProductByCategoryId(4);
+        List<Product> listProductByCategory2 = productService.getListProductByCategoryId(2);
+        List<Product> listProductByCost = productService.getListProductByCost();
+        model.addAttribute("listProductByCategory2", listProductByCategory2);
+        model.addAttribute("listProductCategory", listProductByCategory);
+        model.addAttribute("listProductByCost", listProductByCost);
         model.addAttribute("listCategory", listCategory);
         model.addAttribute("listProduct", listProduct);
         return "client/index";

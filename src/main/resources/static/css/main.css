@@ -49,7 +49,45 @@ button{
     align-items: center;
     justify-content: center;
 }
+.flex-left #account-setting a{
+    color: rgba(255,255,255,0.8);
+}
+#account-setting{
+    position: relative;
+}
+#account-setting span{
+    text-transform: uppercase;
+}
 
+#account-setting a:hover{
+    color: #fff;
+}
+
+.account-dropdown{
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    background-color: rgb(247, 247, 247);
+    z-index: 1000;
+    border: 1px solid rgba(0,0,0,.15);
+    padding: 8px 0;
+    visibility: hidden;
+}
+.account-hidden{
+    visibility: visible !important;
+}
+.account-dropdown ul{
+    display: flex;
+    align-items:flex-start;
+    flex-direction: column;
+}
+.account-dropdown ul li{
+    padding: 10px 5px;
+}
+.account-dropdown a{
+    color: #212529 !important;
+    font-size: 1rem;
+}
 .header-cart a{
     color: rgba(255,255,255,0.8);
     text-transform: uppercase;

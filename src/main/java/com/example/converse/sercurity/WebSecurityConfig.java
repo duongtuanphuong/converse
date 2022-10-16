@@ -59,12 +59,18 @@ public class WebSecurityConfig {
         http.csrf().disable().cors().and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .logout()
+                .logoutUrl("/api/logout")
+                .logoutSuccessUrl("/")
+                .deleteCookies("JWT_TOKEN")
+                ;
 
         http.headers().frameOptions().sameOrigin();
-
+        
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -14,4 +14,6 @@ public interface UserService {
     User changePassword(User user,ChangePasswordReq req);
 
     User updateProfile(User user,UpdateProfileReq req);
+
+    User getUser(String username);
 }

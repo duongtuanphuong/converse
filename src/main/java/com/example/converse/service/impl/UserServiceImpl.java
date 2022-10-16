@@ -92,5 +92,13 @@ public class UserServiceImpl implements UserService {
         user.setNote(req.getNote());
         return userRepository.save(user);
     }
+
+
+
+    @Override
+    public User getUser(String username) {
+        // TODO Auto-generated method stub
+        return userRepository.findByUsername(username);
+    }
     
 }

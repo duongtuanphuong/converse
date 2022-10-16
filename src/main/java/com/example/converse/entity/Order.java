@@ -53,9 +53,9 @@ public class Order {
 
     private String note;
 
-    // @OneToMany(fetch = FetchType.EAGER,mappedBy = "order")
-    // @JsonBackReference
-    // public List<OrderDetail> orderDetail;
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "order")
+    @JsonBackReference
+    public List<OrderDetail> orderDetail;
 
     @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name = "user_id")

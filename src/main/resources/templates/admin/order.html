@@ -31,7 +31,6 @@
                                 <th>Quốc gia</th>
                                 <th>Địa chỉ</th>
                                 <th>Số điện thoại</th>
-                                <th>Sản phẩm</th>
                                 <th>Tổng giá tiền</th>
                                 <th>Ngày đặt hàng</th>
                                 <th>Ngày nhận hàng</th>
@@ -45,6 +44,12 @@
                                 <td th:text = "${order.country}"></td>
                                 <td th:text = "${order.address}"></td>
                                 <td th:text = "${order.phone}"></td>
+                                <td th:text = "${order.totalPrices}"></td>
+                                <td th:text = "${order.requiredDate}"></td>
+                                <td th:if = "${order.shippedDate != null}" th:text = "${order.shippedDate}"></td>
+                                <td th:if ="${order.shippedDate == null}"  th:data-id = "${order.id}" class="shippedDate">Đang sử lý</td>
+                                <td th:if = "${order.shippedDate == null}"><button class="btn btn-success btn-update-ship" th:data-id = "${order.id}">Giao hàng</button></td>
+                                <td th:if = "${order.shippedDate != null}"><button class="btn btn-danger btn-delete-order" th:data-id = "${order.id}">Xóa</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -55,5 +60,20 @@
     
 
     <div th:replace="fragments/admin-layout::script"></div>
+    <script>
+        $('.btn-update-ship').on("click",function(){
+            let id = $(this).data('id');
+            
+            $.ajax({
+                url: '/admin/order/' + id,
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                success: function(data){
+                    $('.shippedDate[data-id= '+id+']').text(data.shippedDate);
+                    toastr.success("Giao hàng thành công");
+                }
+            })
+        })
+    </script>
 </body>
 </html>

@@ -38,6 +38,18 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
+    @Override
+    public List<Product> getListNewProduct() {
+        // TODO Auto-generated method stub
+        return productRepository.getListNewProduct();
+    }
+
+    @Override
+    public List<Product> getListProductByCategoryId(long id) {
+        // TODO Auto-generated method stub
+        return productRepository.getProductByCategoryId(id);
+    }
+    
 
     @Override
     public Page<Product> getPageProduct(Integer pageNo, Integer pageSize, String sortBy) {
@@ -128,8 +140,12 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(product);
     }
 
+    @Override
+    public List<Product> getListProductByCost() {
+        // TODO Auto-generated method stub
+        return productRepository.getListProductByCost();
+    }
 
-    
 
 
 }

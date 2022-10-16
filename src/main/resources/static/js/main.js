@@ -40,8 +40,22 @@
           contentType: "application/json; charset=utf-8",
           success: function(data){
             $('.modal').modal('hide');
+            $('.account-item').hide();
+            $('.account').append(`
+              <li id="account-setting">
+                <a href="#" class="btn btn-account dropdown-toggle" onclick="accountChange()">Xin chào <span>${data.principal.user.username}</span></a>
+                <div class="account-dropdown">
+                    <ul>
+                        <li><a href="">Thông tin tài khoản</a></li>
+                        <li><a href="">Đơn Hàng</a></li>
+                        <li><a href="/api/logout">Đăng xuất</a></li>
+                    </ul>
+                </div>
+              </li>
+
+            `)
+            console.log(data);
             toastr.success('Đăng nhập thành công');
-            signedValidate(true,name);
           }
         })
       })
@@ -62,6 +76,10 @@
           success: function(data){
             toastr.success("Thêm giỏ hàng thành công");
             $('#product-detail').modal('hide');
+          },statusCode: {
+            405 : function(){
+              toastr.error("Bạn chưa đăng nhập");
+            }
           }
         })
       })
@@ -72,15 +90,16 @@
         $('.input-number').val(1)
         let id = $(btn).data('id');
         let html = ``;
-        $('.product-image[data-id = '+id+'] div img').each(function(){
-          let url = $(this).attr('src');
-          html += `<div onclick="getImage(this)"><img src="${url}" alt="product img"></div>`
-        })
+
         $.ajax({
           url: '/api/product/' + id,
           type: 'GET',
           contentType: "application/json; charset = utf-8",
           success: function(data){
+            $.each(data.images,function(i,res){
+              html += `<div onclick ="getImage(this)"><img src = "data:image/jpeg;base64,${res.data}""> </div>`;
+            })
+            
             $('#product-detail .product-id').text(data.id);
             $('#product-detail .product-name').text(data.name);
             $('#product-detail .product-price').text(data.price + '₫');
@@ -118,17 +137,16 @@
         $('.main-image img').attr("src",url);
     }
 
-    function signedValidate(status = false,name =''){
-      if(status == true){
-        isLogined = true;
-        let signedLink = `<a id="account-setting" class="nav-link account-setting" href="/tai-khoan">Xin chào ${name}</a>`;
-        $('.account-setting').replaceWith(signedLink);
-      }else{
-        isLogined = false;
-        let notSignedLink = `<a class="nav-link account-setting" href="" data-toggle="modal" data-target="#signInSignUp">Tài khoản</a>`;
-        $('.account-setting').replaceWith(notSignedLink);
-      }
 
+    function loginModalForm(){
+      $('#login_modal').modal('show');
+      $('#register-name').val('');
+      $('#register-email').val('');
+      $('#register-password').val('');
+      $('#login-name').val('');
+      $('#login-password').val('');
     }
+    
+
 
     

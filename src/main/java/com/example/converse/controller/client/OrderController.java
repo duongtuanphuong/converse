@@ -1,5 +1,6 @@
 package com.example.converse.controller.client;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.apache.catalina.connector.Response;
@@ -20,6 +21,7 @@ import com.example.converse.payload.request.CreateOrderReq;
 import com.example.converse.sercurity.CustomUserDetails;
 import com.example.converse.service.OrderService;
 import com.example.converse.service.ShoppingCartService;
+import com.example.converse.service.UserService;
 
 @Controller
 public class OrderController {
@@ -28,16 +30,30 @@ public class OrderController {
     private OrderService orderService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private ShoppingCartService shoppingCartService;
 
     @GetMapping("/checkout")
-    public String getOrderPage(Model model){
-        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        ShoppingCart cart =user.getShoppingCart();
-        List<CartItem> cartItem = shoppingCartService.getListCartItem(cart.getId());
-        model.addAttribute("cart", cart);
-        model.addAttribute("cartItem", cartItem);
+    public String getOrderPage(Model model,Principal principal){
+        if(principal != null){
+            User user = userService.getUser(principal.getName());
+            ShoppingCart cart =user.getShoppingCart();
+            if(cart != null){
+                List<CartItem> cartItem = shoppingCartService.getListCartItem(cart.getId());
+                model.addAttribute("cart", cart);
+                model.addAttribute("cartItem", cartItem);
+            }
+        }
+
         return "client/checkout";
+    }
+
+
+    @GetMapping("/success")
+    public String getSuccess(){
+        return "client/success";
     }
 
     @PostMapping("/client/api/save-order")

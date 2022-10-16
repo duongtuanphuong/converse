@@ -56,9 +56,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetailRepository.save(orderDetail);
             cartItemRepository.delete(item);
         }
-        cart.setTotalItems(0);
-        cart.setTotalPrices(0);
-        shoppingCartRepository.save(cart);
+
         order.setTotalPrices(cart.getTotalPrices());
         order.setTotalItems(cart.getTotalItems());
         order.setName(req.getName());
@@ -67,6 +65,9 @@ public class OrderServiceImpl implements OrderService {
         order.setAddress(req.getAddress());
         order.setPhone(req.getPhone());
         order.setNote(req.getNote());
+        cart.setTotalItems(0);
+        cart.setTotalPrices(0);
+        shoppingCartRepository.save(cart);
         orderRepository.save(order);
     }
 
@@ -76,6 +77,14 @@ public class OrderServiceImpl implements OrderService {
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
         Page<Order> listOrder = orderRepository.findAll(pageable);
         return listOrder;
+    }
+
+    @Override
+    public Order updateShippedDate(long id) {
+        // TODO Auto-generated method stub
+        Order order = orderRepository.findById(id).get();
+        order.setShippedDate(new Date());
+        return orderRepository.save(order);
     }
     
 }

@@ -1,5 +1,6 @@
 package com.example.converse.controller.client;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
@@ -41,15 +42,21 @@ public class ShoppingCartController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/cart")
-    public String getCart(Model model){
-        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        ShoppingCart cart = user.getShoppingCart();
-        List<CartItem> cartItems = shoppingCartService.getListCartItem(cart.getId());
-        
-        model.addAttribute("cartItems", cartItems);
-        model.addAttribute("cart",cart);
+    public String getCart(Model model,Principal principal){
+
+        if(principal != null){
+            User user = userService.getUser(principal.getName());
+            ShoppingCart cart = user.getShoppingCart();
+            if(cart != null){
+                List<CartItem> cartItems = shoppingCartService.getListCartItem(cart.getId());
+                model.addAttribute("cartItems", cartItems);
+                model.addAttribute("cart",cart);
+            }
+        }
         return "client/cart";
     }
 

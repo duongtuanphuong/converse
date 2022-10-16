@@ -18,13 +18,13 @@
                         <tr>
                             <th>Sản phẩm</th>
                             <th>Giá</th>
-                            <th>Số lượng</th>
+                            <th>SL</th>
                             <th>Tổng</th>
                             <th>Cập nhật</th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr th:each = "cartItem : ${cartItems}" th:data-id = "${cartItem.product.id}" class="cart-list-product">
+                            <tr th:each = "cartItem : ${cartItems}" th:data-id = "${cartItem.product.id}" class="cart-list-product" th:if = "${cart != null }">
                                 <td>
                                     <div class="product-info">
                                         <div class="remove-product">
@@ -43,7 +43,13 @@
                                     </div>
                                 </td>
                                 <td th:text = "${cartItem.totalPrice}" class="product-totalPrice" th:data-id = "${cartItem.product.id}"></td>
-                                <td class="update-cart"><a href="#" th:data-id="${cartItem.product.id}" onclick="updateCart(this)" > Cập nhật</a></td>
+                                <td class="update-cart"><a href="#" th:data-id="${cartItem.product.id}" onclick="updateCart(this)" > Update</a></td>
+                            </tr>
+                            <tr th:if = "${cart != null}">
+                                <img th:src="@{/image/cartE.jpg}" alt="" style="width: 100%;" th:if = "${cartItems.isEmpty()}">   
+                            </tr>
+                            <tr th:if = "${cart == null}">
+                                <img th:src="@{/image/cartE.jpg}" alt="" style="width: 100%;">   
                             </tr>
                         </tbody>
                 </table>
@@ -62,7 +68,7 @@
                                 </th>
                             </tr>
                         </thead>
-                            <tbody>
+                            <tbody th:if = "${cart != null}">
                                 <tr>
                                     <td>Tổng phụ</td>
                                     <td th:text = "${cart.totalPrices}"></td>
@@ -92,7 +98,6 @@
     </div>
 
 
-    <div class="button clear-cart"><button>Clear</button></div>
 
 
     <div th:replace="fragments/layout::login-modal"></div>

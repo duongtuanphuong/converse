@@ -19,8 +19,17 @@
                 <div class="header-main">
                     <div class="flex-left">
                         <ul class="account">
-                            <li th:if = "${session.username == null}" class="account-item"><button data-toggle="modal" data-target="#login_modal"><span>Đăng nhập / Đăng ký</span></button></li>
-                            <div th:text = "${session.username}"></div>
+                            <li th:if = "${session.authentication == null}" class="account-item"><button onclick="loginModalForm(this)"><span>Đăng nhập / Đăng ký</span></button></li>
+                            <li id="account-setting"  th:if ="${session.authentication != null}">
+                                <a href="#" class="btn btn-account dropdown-toggle" onclick="accountChange()">Xin chào <span th:text = "${session.authentication.principal.user.username}"></span></a>
+                                <div class="account-dropdown">
+                                    <ul>
+                                        <li><a href="">Thông tin tài khoản</a></li>
+                                        <li><a href="">Đơn Hàng</a></li>
+                                        <li><a th:href="@{/api/logout}">Đăng xuất</a></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                     <div class="logo">
@@ -48,12 +57,12 @@
             <div class="container">
                 <div class="header-bottom-nav">
                     <ul class="header-bottom-item">
-                        <li class="bottom-nav-item current-item"><a href="">Trang chủ</a></li>
+                        <li class="bottom-nav-item current-item"><a th:href="@{/}">Trang chủ</a></li>
                         <li class="bottom-nav-item"><a href="">Giới thiệu</a></li>
-                        <li class="bottom-nav-item"><a href="">Nam</a></li>
-                        <li class="bottom-nav-item"><a href="">Nữ</a></li>
-                        <li class="bottom-nav-item"><a href="">Trẻ em</a></li>
-                        <li class="bottom-nav-item"><a href="">Phụ kiện khác</a></li>
+                        <li class="bottom-nav-item"><a th:href="@{/product/category/2}">Nam</a></li>
+                        <li class="bottom-nav-item"><a th:href="@{/product/category/1}">Nữ</a></li>
+                        <li class="bottom-nav-item"><a th:href="@{/product/category/3}">Trẻ em</a></li>
+                        <li class="bottom-nav-item"><a th:href="@{/product/category/4}">Phụ kiện khác</a></li>
                         <li class="bottom-nav-item"><a href="">Tin tức</a></li>
                         <li class="bottom-nav-item"><a href="">Liên hệ</a></li>
                         <li class="account-setting"></li>
@@ -180,7 +189,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="">Mật khẩu *</label>
-                                        <input type="text"  id="login-password" class="form-control" >
+                                        <input type="password"  id="login-password" class="form-control" >
                                     </div>
                                     <div class="submit-button">
                                         <button type="submit" class="btn btn-danger login-button">Đăng nhập</button>
@@ -202,7 +211,7 @@
                                       </div>
                                     <div class="form-group">
                                         <label for="">Mật khẩu *</label>
-                                        <input type="text" name="" id="register-password" class="form-control">
+                                        <input type="password" name="" id="register-password" class="form-control">
                                     </div>
                                     <div class="submit-button">
                                         <button type="button" class="btn btn-danger register-button">Đăng Ký</button>
@@ -278,7 +287,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script th:src = "@{/js/main.js}"></script>
-    <script th:inline ="javascript">        
+    <script th:inline ="javascript">
+        function accountChange(){
+            $('.account-dropdown').toggleClass('account-hidden');
+        } 
     </script>
 </body>
 </html>
